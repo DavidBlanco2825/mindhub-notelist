@@ -1,10 +1,10 @@
-package com.example.myapp;
+package com.mindhub.todolist;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class MyAppApplicationTests {
+class TodoListApplicationTests {
 
 	@Test
 	void contextLoads() {
