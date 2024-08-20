@@ -24,6 +24,8 @@ public interface TaskService {
 
     List<TaskResponseDTO> getTasksByUserId(Long userId);
 
+    List<TaskResponseDTO> getTasksByUsername(String username);
+
     // Utility methods
     boolean checkIfTaskTitleExists(String title);
 

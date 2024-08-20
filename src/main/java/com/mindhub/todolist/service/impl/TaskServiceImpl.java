@@ -87,6 +87,14 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    public List<TaskResponseDTO> getTasksByUsername(String username) {
+        return taskRepository.findByUserEntityUsername(username)
+                .stream()
+                .map(taskMapper::toResponseDto)
+                .toList();
+    }
+
+    @Override
     public boolean checkIfTaskTitleExists(String taskTitle) {
         return taskRepository.existsByTitle(taskTitle);
     }

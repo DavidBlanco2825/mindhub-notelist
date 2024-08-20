@@ -15,7 +15,8 @@ public class UserMapper {
         return new UserDTO(
                 userEntity.getId(),
                 userEntity.getUsername(),
-                userEntity.getEmail()
+                userEntity.getEmail(),
+                userEntity.getPassword()
         );
     }
 

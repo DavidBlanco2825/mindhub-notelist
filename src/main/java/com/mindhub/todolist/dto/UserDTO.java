@@ -1,25 +1,17 @@
 package com.mindhub.todolist.dto;
 
-import com.mindhub.todolist.entity.UserEntity;
-
 public class UserDTO {
 
     private Long id;
     private String username;
     private String email;
+    private String password;
 
-    public UserDTO() {}
-
-    public UserDTO(Long id, String username, String email) {
+    public UserDTO(Long id, String username, String email, String password) {
         this.id = id;
         this.username = username;
         this.email = email;
-    }
-
-    public UserDTO(UserEntity userEntity) {
-        this.id = userEntity.getId();
-        this.username = userEntity.getUsername();
-        this.email = userEntity.getEmail();
+        this.password = password;
     }
 
     public Long getId() {
@@ -44,5 +36,13 @@ public class UserDTO {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
