@@ -1,7 +1,7 @@
 package com.mindhub.todolist.controller;
 
 import com.mindhub.todolist.dto.TaskResponseDTO;
-import com.mindhub.todolist.dto.UserDTO;
+import com.mindhub.todolist.dto.UserResponseDTO;
 import com.mindhub.todolist.service.TaskService;
 import com.mindhub.todolist.service.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -17,7 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/user")
-@Tag(name = "AppController", description = "Operations that user's of the application can execute")
+@Tag(name = "AppController", description = "Available user actions in the NoteList App")
 public class AppController {
 
     private final UserService userService;
@@ -30,9 +30,9 @@ public class AppController {
     }
 
     @GetMapping
-    public ResponseEntity<UserDTO> getUser(Authentication authentication) {
-        UserDTO userDTO = userService.getUserByUsername(authentication.getName());
-        return new ResponseEntity<>(userDTO, HttpStatus.OK);
+    public ResponseEntity<UserResponseDTO> getUser(Authentication authentication) {
+        UserResponseDTO userRequestDTO = userService.getUserByUsername(authentication.getName());
+        return new ResponseEntity<>(userRequestDTO, HttpStatus.OK);
     }
 
     @GetMapping("/tasks")

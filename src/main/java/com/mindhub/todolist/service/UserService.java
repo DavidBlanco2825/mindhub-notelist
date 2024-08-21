@@ -1,24 +1,25 @@
 package com.mindhub.todolist.service;
 
-import com.mindhub.todolist.dto.UserDTO;
+import com.mindhub.todolist.dto.UserRequestDTO;
+import com.mindhub.todolist.dto.UserResponseDTO;
 
 import java.util.List;
 
 public interface UserService {
 
     // CRUD operations
-    UserDTO createUser(UserDTO userDTO);
+    UserResponseDTO createUser(UserRequestDTO userRequestDTO);
 
-    UserDTO getUserById(Long id);
+    UserResponseDTO getUserById(Long id);
 
-    List<UserDTO> getAllUsers();
+    List<UserResponseDTO> getAllUsers();
 
-    UserDTO updateUser(Long id, UserDTO userDTO);
+    UserResponseDTO updateUser(Long id, UserRequestDTO userRequestDTO);
 
     void deleteUser(Long id);
 
     // Find by specific attributes
-    UserDTO getUserByUsername(String username);
+    UserResponseDTO getUserByUsername(String username);
 
     // Utility methods
     boolean checkIfEmailExists(String email);

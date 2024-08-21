@@ -1,6 +1,7 @@
 package com.mindhub.todolist.controller;
 
-import com.mindhub.todolist.dto.UserDTO;
+import com.mindhub.todolist.dto.UserRequestDTO;
+import com.mindhub.todolist.dto.UserResponseDTO;
 import com.mindhub.todolist.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -40,15 +41,15 @@ public class UserController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "User successfully created.",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = UserDTO.class))),
+                            schema = @Schema(implementation = UserResponseDTO.class))),
             @ApiResponse(responseCode = "400", description = "Invalid input.",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(type = "string", example = "Invalid user data.")))
     })
-    public ResponseEntity<UserDTO> createUser(
+    public ResponseEntity<UserResponseDTO> createUser(
             @RequestBody
-            @Parameter(description = "User data for the new user", required = true) UserDTO userDTO) {
-        UserDTO createdUser = userService.createUser(userDTO);
+            @Parameter(description = "User data for the new user", required = true) UserRequestDTO userRequestDTO) {
+        UserResponseDTO createdUser = userService.createUser(userRequestDTO);
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
 
@@ -57,16 +58,16 @@ public class UserController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "User successfully returned.",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = UserDTO.class))),
+                            schema = @Schema(implementation = UserResponseDTO.class))),
             @ApiResponse(responseCode = "404", description = "User not found.",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(type = "string", example = "User not found.")))
     })
-    public ResponseEntity<UserDTO> getUserById(
+    public ResponseEntity<UserResponseDTO> getUserById(
             @PathVariable("id")
             @Parameter(description = "ID of the user to be retrieved", required = true, example = "1") Long id) {
-        UserDTO userDTO = userService.getUserById(id);
-        return new ResponseEntity<>(userDTO, HttpStatus.OK);
+        UserResponseDTO userRequestDTO = userService.getUserById(id);
+        return new ResponseEntity<>(userRequestDTO, HttpStatus.OK);
     }
 
     @GetMapping
@@ -74,12 +75,12 @@ public class UserController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Users successfully returned.",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = UserDTO.class))),
+                            schema = @Schema(implementation = UserResponseDTO.class))),
             @ApiResponse(responseCode = "400", description = "Bad Request")
     })
-    public ResponseEntity<List<UserDTO>> getAllUsers() {
-        List<UserDTO> userDTOS = userService.getAllUsers();
-        return new ResponseEntity<>(userDTOS, HttpStatus.OK);
+    public ResponseEntity<List<UserResponseDTO>> getAllUsers() {
+        List<UserResponseDTO> userRequestDTOS = userService.getAllUsers();
+        return new ResponseEntity<>(userRequestDTOS, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
@@ -87,17 +88,17 @@ public class UserController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "User successfully updated.",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = UserDTO.class))),
+                            schema = @Schema(implementation = UserResponseDTO.class))),
             @ApiResponse(responseCode = "404", description = "User not found.",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(type = "string", example = "User not found.")))
     })
-    public ResponseEntity<UserDTO> updateUser(
+    public ResponseEntity<UserResponseDTO> updateUser(
             @PathVariable("id")
             @Parameter(description = "ID of the user to be updated", required = true, example = "1") Long id,
             @RequestBody
-            @Parameter(description = "Updated user data", required = true) UserDTO userDTO) {
-        UserDTO updatedUser = userService.updateUser(id, userDTO);
+            @Parameter(description = "Updated user data", required = true) UserRequestDTO userRequestDTO) {
+        UserResponseDTO updatedUser = userService.updateUser(id, userRequestDTO);
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
 
@@ -121,16 +122,16 @@ public class UserController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "User successfully returned.",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = UserDTO.class))),
+                            schema = @Schema(implementation = UserResponseDTO.class))),
             @ApiResponse(responseCode = "404", description = "User not found.",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(type = "string", example = "User not found.")))
     })
-    public ResponseEntity<UserDTO> getUserByUsername(
+    public ResponseEntity<UserResponseDTO> getUserByUsername(
             @PathVariable("username")
             @Parameter(description = "Username of the user to be retrieved", required = true, example = "john_doe") String username) {
-        UserDTO userDTO = userService.getUserByUsername(username);
-        return new ResponseEntity<>(userDTO, HttpStatus.OK);
+        UserResponseDTO userRequestDTO = userService.getUserByUsername(username);
+        return new ResponseEntity<>(userRequestDTO, HttpStatus.OK);
     }
 
     @GetMapping("/exists/email/{email}")

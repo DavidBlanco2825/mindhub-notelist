@@ -1,6 +1,7 @@
 package com.mindhub.todolist.service.impl;
 
-import com.mindhub.todolist.dto.UserDTO;
+import com.mindhub.todolist.dto.UserRequestDTO;
+import com.mindhub.todolist.dto.UserResponseDTO;
 import com.mindhub.todolist.entity.UserEntity;
 import com.mindhub.todolist.exception.ResourceNotFoundException;
 import com.mindhub.todolist.mapper.UserMapper;
@@ -27,37 +28,37 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO createUser(UserDTO userDTO) {
-        UserEntity userEntity = userMapper.toEntity(userDTO);
+    public UserResponseDTO createUser(UserRequestDTO userRequestDTO) {
+        UserEntity userEntity = userMapper.toEntity(userRequestDTO);
         UserEntity savedUserEntity = userRepository.save(userEntity);
-        return userMapper.toDto(savedUserEntity);
+        return userMapper.toResponseDto(savedUserEntity);
     }
 
     @Override
-    public UserDTO getUserById(Long userId) {
+    public UserResponseDTO getUserById(Long userId) {
         return userRepository.findById(userId)
-                .map(userMapper::toDto)
+                .map(userMapper::toResponseDto)
                 .orElseThrow(() -> new ResourceNotFoundException(USER_NOT_FOUND_ID + userId));
     }
 
     @Override
-    public List<UserDTO> getAllUsers() {
+    public List<UserResponseDTO> getAllUsers() {
         List<UserEntity> users = userRepository.findAll();
         return users.stream()
-                .map(userMapper::toDto)
+                .map(userMapper::toResponseDto)
                 .toList();
     }
 
     @Override
-    public UserDTO updateUser(Long userId, UserDTO userDTO) {
+    public UserResponseDTO updateUser(Long userId, UserRequestDTO userRequestDTO) {
         UserEntity existingUser = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException(USER_NOT_FOUND_ID + userId));
 
-        existingUser.setUsername(userDTO.getUsername());
-        existingUser.setEmail(userDTO.getEmail());
+        existingUser.setUsername(userRequestDTO.getUsername());
+        existingUser.setEmail(userRequestDTO.getEmail());
 
         UserEntity updatedUser = userRepository.save(existingUser);
-        return userMapper.toDto(updatedUser);
+        return userMapper.toResponseDto(updatedUser);
     }
 
     @Override
@@ -69,9 +70,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO getUserByUsername(String username) {
+    public UserResponseDTO getUserByUsername(String username) {
         return userRepository.findByUsername(username)
-                .map(userMapper::toDto)
+                .map(userMapper::toResponseDto)
                 .orElseThrow(() -> new ResourceNotFoundException(USER_NOT_FOUND_USERNAME + username));
     }
 

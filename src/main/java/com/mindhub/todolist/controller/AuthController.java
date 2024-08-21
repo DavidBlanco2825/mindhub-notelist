@@ -3,7 +3,7 @@ package com.mindhub.todolist.controller;
 import com.mindhub.todolist.config.JwtTokenProvider;
 import com.mindhub.todolist.dto.JwtAuthenticationResponse;
 import com.mindhub.todolist.dto.LoginRequest;
-import com.mindhub.todolist.dto.UserDTO;
+import com.mindhub.todolist.dto.UserRequestDTO;
 import com.mindhub.todolist.entity.UserEntity;
 import com.mindhub.todolist.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,24 +38,8 @@ public class AuthController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-/*    @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody RegisterRequest registerRequest) {
-        if (userRepository.existsByUsername(registerRequest.getUsername())) {
-            return ResponseEntity.badRequest().body("Username is already taken");
-        }
-
-        UserEntity user = new UserEntity();
-        user.setUsername(registerRequest.getUsername());
-        user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
-        user.setAuthorities(Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")));
-
-        userRepository.save(user);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
-    }*/
-
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody UserDTO registerRequest) {
+    public ResponseEntity<?> registerUser(@RequestBody UserRequestDTO registerRequest) {
         if (userRepository.existsByUsername(registerRequest.getUsername())) {
             return ResponseEntity.badRequest().body("Username is already taken");
         }
