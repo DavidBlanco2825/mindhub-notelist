@@ -3,10 +3,20 @@ package com.mindhub.todolist.mapper;
 import com.mindhub.todolist.dto.UserRequestDTO;
 import com.mindhub.todolist.dto.UserResponseDTO;
 import com.mindhub.todolist.entity.UserEntity;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+
+import java.util.Collections;
 
 @Component
 public class UserMapper {
+
+    private final PasswordEncoder passwordEncoder;
+
+    public UserMapper(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
 
     public UserResponseDTO toResponseDto(UserEntity userEntity) {
         if (userEntity == null) {
@@ -28,7 +38,8 @@ public class UserMapper {
         UserEntity userEntity = new UserEntity();
         userEntity.setUsername(userRequestDTO.getUsername());
         userEntity.setEmail(userRequestDTO.getEmail());
-        userEntity.setPassword(userRequestDTO.getPassword());
+        userEntity.setPassword(passwordEncoder.encode(userRequestDTO.getPassword()));
+        userEntity.setAuthorities(Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")));
 
         return userEntity;
     }
