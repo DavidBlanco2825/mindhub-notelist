@@ -2,7 +2,6 @@ package com.mindhub.todolist.controller;
 
 import com.mindhub.todolist.dto.TaskRequestDTO;
 import com.mindhub.todolist.dto.TaskResponseDTO;
-import com.mindhub.todolist.entity.TaskStatus;
 import com.mindhub.todolist.service.TaskService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -151,33 +150,5 @@ public class TaskController {
                     description = "ID of the user whose tasks are to be retrieved", required = true, example = "1") Long userId) {
         List<TaskResponseDTO> tasks = taskService.getTasksByUserId(userId);
         return new ResponseEntity<>(tasks, HttpStatus.OK);
-    }
-
-    @GetMapping("/exists/title/{title}")
-    @Operation(summary = "Check if Task Title Exists", description = "Checks if a task with the given title exists.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Task title existence successfully checked.",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(type = "boolean", example = "true"))),
-    })
-    public ResponseEntity<Boolean> checkIfTaskTitleExists(
-            @PathVariable("title")
-            @Parameter(description = "Title of the task to be checked", required = true, example = "Sample Task") String title) {
-        boolean exists = taskService.checkIfTaskTitleExists(title);
-        return new ResponseEntity<>(exists, HttpStatus.OK);
-    }
-
-    @GetMapping("/count/status/{status}")
-    @Operation(summary = "Count Tasks by Status", description = "Counts the number of tasks with the given status.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Count successfully returned.",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(type = "integer", example = "5"))),
-    })
-    public ResponseEntity<Long> countTasksByStatus(
-            @PathVariable("status")
-            @Parameter(description = "Status of tasks to be counted", required = true, example = "PENDING") TaskStatus status) {
-        long count = taskService.countTasksByStatus(status);
-        return new ResponseEntity<>(count, HttpStatus.OK);
     }
 }

@@ -11,11 +11,9 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
 
     Optional<Task> findByTitle(String title);
 
-    boolean existsByTitle(String title);
-
-    long countByStatus(TaskStatus status);
-
     List<Task> findByUserEntityId(Long userId);
 
     List<Task> findByUserEntityUsername(String username);
+
+    List<Task> findByUserEntityUsernameAndStatus(String username, TaskStatus status);
 }

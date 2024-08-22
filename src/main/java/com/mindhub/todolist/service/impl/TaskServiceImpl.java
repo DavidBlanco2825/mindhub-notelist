@@ -95,12 +95,10 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public boolean checkIfTaskTitleExists(String taskTitle) {
-        return taskRepository.existsByTitle(taskTitle);
-    }
-
-    @Override
-    public long countTasksByStatus(TaskStatus status) {
-        return taskRepository.countByStatus(status);
+    public List<TaskResponseDTO> getTasksByUsernameAndStatus(String username, TaskStatus status) {
+        return taskRepository.findByUserEntityUsernameAndStatus(username, status)
+                .stream()
+                .map(taskMapper::toResponseDto)
+                .toList();
     }
 }

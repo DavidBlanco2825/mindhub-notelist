@@ -26,8 +26,5 @@ public interface TaskService {
 
     List<TaskResponseDTO> getTasksByUsername(String username);
 
-    // Utility methods
-    boolean checkIfTaskTitleExists(String title);
-
-    long countTasksByStatus(TaskStatus status);
+    List<TaskResponseDTO> getTasksByUsernameAndStatus(String username, TaskStatus status);
 }
