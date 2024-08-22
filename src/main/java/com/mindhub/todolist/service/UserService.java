@@ -16,6 +16,8 @@ public interface UserService {
 
     UserResponseDTO updateUser(Long id, UserRequestDTO userRequestDTO);
 
+    UserResponseDTO updateUser(String username, UserRequestDTO userRequestDTO);
+
     void deleteUser(Long id);
 
     // Find by specific attributes

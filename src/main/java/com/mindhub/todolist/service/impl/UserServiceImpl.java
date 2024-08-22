@@ -62,6 +62,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserResponseDTO updateUser(String username, UserRequestDTO userRequestDTO) {
+        UserEntity existingUser = userRepository.findByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException(USER_NOT_FOUND_USERNAME + username));
+
+        existingUser.setUsername(userRequestDTO.getUsername());
+        existingUser.setEmail(userRequestDTO.getEmail());
+
+        UserEntity updatedUser = userRepository.save(existingUser);
+        return userMapper.toResponseDto(updatedUser);
+    }
+
+    @Override
     public void deleteUser(Long userId) {
         if (!userRepository.existsById(userId)) {
             throw new ResourceNotFoundException(USER_NOT_FOUND_ID + userId);
