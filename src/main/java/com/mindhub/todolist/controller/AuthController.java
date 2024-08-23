@@ -4,6 +4,7 @@ import com.mindhub.todolist.dto.JwtAuthenticationResponse;
 import com.mindhub.todolist.dto.LoginRequest;
 import com.mindhub.todolist.dto.UserRequestDTO;
 import com.mindhub.todolist.dto.UserResponseDTO;
+import com.mindhub.todolist.exception.UserEntityValidator;
 import com.mindhub.todolist.service.AuthService;
 import com.mindhub.todolist.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,15 +21,19 @@ public class AuthController {
 
     private final AuthService authService;
     private final UserService userService;
+    private final UserEntityValidator userEntityValidator;
 
     @Autowired
-    public AuthController(AuthService authService, UserService userService) {
+    public AuthController(AuthService authService, UserService userService, UserEntityValidator userEntityValidator) {
         this.authService = authService;
         this.userService = userService;
+        this.userEntityValidator = userEntityValidator;
     }
 
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody UserRequestDTO userRequestDTO) {
+
+        userEntityValidator.validate(userRequestDTO);
 
         UserResponseDTO createdUser = userService.createUser(userRequestDTO);
 

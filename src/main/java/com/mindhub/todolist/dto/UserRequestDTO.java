@@ -1,9 +1,18 @@
 package com.mindhub.todolist.dto;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+
 public class UserRequestDTO {
 
+    @NotBlank(message = "Username cannot be empty")
     private String username;
+
+    @NotBlank(message = "Email cannot be empty")
+    @Email(message = "Email should be valid")
     private String email;
+
+    @NotBlank(message = "Password cannot be empty")
     private String password;
 
     public UserRequestDTO(String username, String email, String password) {
