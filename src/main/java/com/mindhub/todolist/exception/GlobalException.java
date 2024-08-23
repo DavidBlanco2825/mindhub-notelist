@@ -2,6 +2,7 @@ package com.mindhub.todolist.exception;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -22,11 +23,6 @@ public class GlobalException {
         return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(bre.getMessage());
     }
 
-    @ExceptionHandler({DataAlreadyExistsException.class})
-    public ResponseEntity<String> handleDataAlreadyExistsException(DataAlreadyExistsException daee){
-        return  ResponseEntity.status(HttpStatus.CONFLICT).body(daee.getMessage());
-    }
-
     @ExceptionHandler({ConstraintViolationException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<String> handleConstraintViolationException(ConstraintViolationException cve) {
@@ -35,5 +31,20 @@ public class GlobalException {
                 .map(ConstraintViolation::getMessage)
                 .collect(Collectors.joining(", "));
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
+    }
+
+    @ExceptionHandler({DataIntegrityViolationException.class})
+    public ResponseEntity<String> handleDataIntegrityViolationException(DataIntegrityViolationException dive) {
+        // Check for specific constraint violations related to username
+        if (dive.getMostSpecificCause().getMessage().contains("USERS(USERNAME")) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Username is already taken.");
+        }
+
+        if (dive.getMostSpecificCause().getMessage().contains("USERS(EMAIL")) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Someone else has already registered with that email.");
+        }
+
+        // Fallback to a generic conflict message if the specific cause isn't found
+        return ResponseEntity.status(HttpStatus.CONFLICT).body("A conflict occurred: " + dive.getMostSpecificCause().getMessage());
     }
 }
