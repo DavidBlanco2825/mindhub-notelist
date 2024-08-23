@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.stream.Collectors;
 
+import static com.mindhub.todolist.config.Constans.EMAIL_ALREADY_EXISTS;
+import static com.mindhub.todolist.config.Constans.USERNAME_ALREADY_EXISTS;
+
 @ControllerAdvice
 public class GlobalException {
     @ExceptionHandler({ResourceNotFoundException.class})
@@ -35,13 +38,12 @@ public class GlobalException {
 
     @ExceptionHandler({DataIntegrityViolationException.class})
     public ResponseEntity<String> handleDataIntegrityViolationException(DataIntegrityViolationException dive) {
-        // Check for specific constraint violations related to username
         if (dive.getMostSpecificCause().getMessage().contains("USERS(USERNAME")) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Username is already taken.");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(USERNAME_ALREADY_EXISTS);
         }
 
         if (dive.getMostSpecificCause().getMessage().contains("USERS(EMAIL")) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Someone else has already registered with that email.");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(EMAIL_ALREADY_EXISTS);
         }
 
         // Fallback to a generic conflict message if the specific cause isn't found
